@@ -1,17 +1,15 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
-import { useRef } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { Button } from "./ui/button"
-
-const basePath = process.env.NODE_ENV === "production" ? "/openprinting.github.io" : "";
+import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useRef } from "react";
+import Image from "next/image";
+import { Button } from "./ui/button";
+import { basePath } from "@/lib/utils";
 
 export default function ProjectsSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, amount: 0.2 })
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   const softwares = [
     {
@@ -35,8 +33,7 @@ export default function ProjectsSection() {
       image: `${basePath}/wsl-printing-icon.png`,
       delay: 0.5,
     },
-  ]
-  
+  ];
 
   const projects = [
     {
@@ -63,7 +60,7 @@ export default function ProjectsSection() {
       delay: 0.5,
       href: "https://developers.google.com/season-of-docs",
     },
-  ]
+  ];
 
   return (
     <section ref={ref} className="bg-black text-white" id="projects">
@@ -84,11 +81,12 @@ export default function ProjectsSection() {
           className="text-center"
         >
           <p className="text-xl md:text-2xl text-center font-bold mb-4 leading-relaxed">
-            Most modern printers work using OpenPrinting software without additional drivers or software.
+            Most modern printers work using OpenPrinting software without
+            additional drivers or software.
           </p>
           <p className="text-lg text-gray-300">
-            OpenPrinting also hosts a printer compatibility database of legacy printers supported by free software
-            drivers.
+            OpenPrinting also hosts a printer compatibility database of legacy
+            printers supported by free software drivers.
           </p>
         </motion.div>
 
@@ -97,15 +95,15 @@ export default function ProjectsSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {softwares.map((software, index) => (
             <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ duration: 0.5, delay: software.delay }}
-            className="group relative bg-gray-900 rounded-lg overflow-hidden p-6 border border-gray-800 hover:border-brand-lightBlue transition-colors duration-300 hover:cursor-pointer"
-            whileHover={{
-              scale: 1.02,
-              transition: { duration: 0.2 },
-            }}
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+              transition={{ duration: 0.5, delay: software.delay }}
+              className="group relative bg-gray-900 rounded-lg overflow-hidden p-6 border border-gray-800 hover:border-brand-lightBlue transition-colors duration-300 hover:cursor-pointer"
+              whileHover={{
+                scale: 1.02,
+                transition: { duration: 0.2 },
+              }}
             >
               <div className="mb-4 bg-white rounded-lg flex items-center justify-center">
                 <Image
@@ -119,7 +117,9 @@ export default function ProjectsSection() {
               <div className="pt-6">
                 <h3 className="text-xl font-bold mb-2">{software.title}</h3>
                 <p className="text-gray-300 mb-4">{software.description}</p>
-                <Button className="bg-blue-500 text-md text-white">Browse</Button>
+                <Button className="bg-blue-500 text-md text-white">
+                  Browse
+                </Button>
               </div>
             </motion.div>
           ))}
@@ -134,7 +134,8 @@ export default function ProjectsSection() {
           className="text-center"
         >
           <p className="text-xl md:text-2xl text-center font-bold mb-4 leading-relaxed">
-          OpenPrinting collaborates with standards groups and participates in coding/documentation programs.
+            OpenPrinting collaborates with standards groups and participates in
+            coding/documentation programs.
           </p>
         </motion.div>
 
@@ -143,15 +144,15 @@ export default function ProjectsSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {projects.map((project, index) => (
             <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ duration: 0.5, delay: project.delay }}
-            className="group relative bg-gray-900 rounded-lg overflow-hidden p-6 border border-gray-800 hover:border-brand-lightBlue transition-colors duration-300 hover:cursor-pointer"
-            whileHover={{
-              scale: 1.02,
-              transition: { duration: 0.2 },
-            }}
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+              transition={{ duration: 0.5, delay: project.delay }}
+              className="group relative bg-gray-900 rounded-lg overflow-hidden p-6 border border-gray-800 hover:border-brand-lightBlue transition-colors duration-300 hover:cursor-pointer"
+              whileHover={{
+                scale: 1.02,
+                transition: { duration: 0.2 },
+              }}
             >
               <div className="mb-4 bg-white rounded-lg flex items-center justify-center">
                 <Image
@@ -165,14 +166,8 @@ export default function ProjectsSection() {
               <div className="pt-6">
                 <h3 className="text-xl font-bold mb-2">{project.title}</h3>
                 <p className="text-gray-300 mb-4">{project.description}</p>
-                <Button asChild className="bg-blue-500 text-md text-white">
-                  <Link
-                    href={project.href}
-                    target={project.href.startsWith("http") ? "_blank" : undefined}
-                    rel={project.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  >
-                    Read More
-                  </Link>
+                <Button className="bg-blue-500 text-md text-white">
+                  Read More
                 </Button>
               </div>
             </motion.div>
@@ -181,5 +176,5 @@ export default function ProjectsSection() {
       </div>
       <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent my-16"></div>
     </section>
-  )
+  );
 }
