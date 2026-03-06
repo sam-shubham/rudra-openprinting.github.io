@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Github, Rss, Mail } from "lucide-react";
 
 function MastodonIcon() {
