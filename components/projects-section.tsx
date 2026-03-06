@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { Button } from "./ui/button"
 
 const basePath = process.env.NODE_ENV === "production" ? "/openprinting.github.io" : "";
@@ -44,6 +45,7 @@ export default function ProjectsSection() {
         "OpenPrinting collaborates with the PWG's Internet Printing Protocol workgroup to support this ubiquitous printing standard.",
       image: `${basePath}/pwg.png`,
       delay: 0.1,
+      href: "https://www.pwg.org/",
     },
     {
       title: "GSoC - OpenPrinting",
@@ -51,6 +53,7 @@ export default function ProjectsSection() {
         "OpenPrinting participates in the GSoC program under its umbrella organization The Linux Foundation.",
       image: `${basePath}/gsoc.jpeg`,
       delay: 0.3,
+      href: "/gsoc",
     },
     {
       title: "GSoD - OpenPrinting",
@@ -58,6 +61,7 @@ export default function ProjectsSection() {
         "OpenPrinting participates in the GSoD program under its umbrella organization The Linux Foundation.",
       image: `${basePath}/gsod.jpg`,
       delay: 0.5,
+      href: "https://developers.google.com/season-of-docs",
     },
   ]
 
@@ -161,7 +165,15 @@ export default function ProjectsSection() {
               <div className="pt-6">
                 <h3 className="text-xl font-bold mb-2">{project.title}</h3>
                 <p className="text-gray-300 mb-4">{project.description}</p>
-                <Button className="bg-blue-500 text-md text-white">Read More</Button>
+                <Button asChild className="bg-blue-500 text-md text-white">
+                  <Link
+                    href={project.href}
+                    target={project.href.startsWith("http") ? "_blank" : undefined}
+                    rel={project.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  >
+                    Read More
+                  </Link>
+                </Button>
               </div>
             </motion.div>
           ))}
