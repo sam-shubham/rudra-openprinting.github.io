@@ -1,8 +1,46 @@
+import Image from "next/image";
 import Link from "next/link";
 import { PostSummary } from "@/lib/posts";
+import authors from "@/data/authors";
 
 interface NewsSectionProps {
   posts: PostSummary[];
+}
+
+const basePath =
+  process.env.NODE_ENV === "production" ? "/openprinting.github.io" : "";
+
+function getPublisherProfile(authorKey: string) {
+  const author = authors.find((item) => item.key === authorKey);
+  const rawImage =
+    author?.image && author.image !== "NA"
+      ? author.image
+      : "/authors/placeholder.jpg";
+  const imagePath = rawImage.startsWith("/")
+    ? `${basePath}${rawImage}`
+    : `${basePath}/${rawImage}`;
+
+  return {
+    name: author?.name || authorKey || "OpenPrinting",
+    imagePath,
+  };
+}
+
+function formatCardDate(dateValue: string) {
+  if (!dateValue) {
+    return "";
+  }
+
+  const parsed = new Date(dateValue);
+  if (Number.isNaN(parsed.getTime())) {
+    return dateValue;
+  }
+
+  return parsed.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
 }
 
 export default function NewsSection({ posts }: NewsSectionProps) {
@@ -11,10 +49,15 @@ export default function NewsSection({ posts }: NewsSectionProps) {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-10 flex items-end justify-between gap-4 border-b border-gray-800 pb-4">
           <div>
-            <h2 className="text-2xl font-semibold tracking-tight">Latest News</h2>
-            <p className="mt-2 text-sm text-gray-400">Recent posts from the OpenPrinting blog.</p>
+            <h2 className="text-2xl font-semibold tracking-tight">
+              Latest News
+            </h2>
+            {/* <p className="mt-2 text-sm text-gray-400">Recent posts from the OpenPrinting blog.</p> */}
           </div>
-          <Link href="/news" className="text-sm text-blue-300 hover:text-blue-200">
+          <Link
+            href="/news"
+            className="text-sm text-blue-300 hover:text-blue-200"
+          >
             View all posts
           </Link>
         </div>
@@ -22,24 +65,43 @@ export default function NewsSection({ posts }: NewsSectionProps) {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {posts.map((item) => {
             const href = `/${encodeURIComponent(item.slug)}`;
+            const publisher = getPublisherProfile(item.author);
             return (
-            <Link
-              key={item.slug}
-              href={href}
-              className="block cursor-pointer rounded-md border border-gray-800 bg-gray-950 p-5 transition-colors hover:border-gray-700 hover:bg-gray-900/70"
-            >
-              <article>
-                <h3 className="text-lg font-semibold leading-snug text-white">{item.title}</h3>
+              <Link
+                key={item.slug}
+                href={href}
+                className="block cursor-pointer rounded-md border border-gray-800 bg-gray-950 p-5 transition-colors hover:border-gray-700 hover:bg-gray-900/70"
+              >
+                <article>
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="text-lg font-semibold leading-snug text-white">
+                      {item.title}
+                    </h3>
+                    {item.date && (
+                      <span className="mt-0.5 shrink-0 rounded-full border border-gray-700 px-2 py-0.5 text-[11px] text-gray-400">
+                        {formatCardDate(item.date)}
+                      </span>
+                    )}
+                  </div>
 
-                <div className="mt-2 text-xs text-gray-400">
-                  <span>{item.author}</span>
-                  {item.date && <span> • {item.date}</span>}
-                </div>
+                  <div className="mt-3 flex items-center gap-2">
+                    <Image
+                      src={publisher.imagePath}
+                      alt={publisher.name}
+                      width={24}
+                      height={24}
+                      className="h-6 w-6 rounded-full border border-gray-700 object-cover"
+                    />
+                    <span className="text-sm text-gray-300">{publisher.name}</span>
+                  </div>
 
-                <p className="mt-4 text-sm text-gray-300 line-clamp-4">{item.excerpt}</p>
-              </article>
-            </Link>
-          )})}
+                  <p className="mt-4 text-sm text-gray-300 line-clamp-4">
+                    {item.excerpt}
+                  </p>
+                </article>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>

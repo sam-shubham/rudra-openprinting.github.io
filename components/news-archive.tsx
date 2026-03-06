@@ -1,14 +1,35 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { Filter, X } from "lucide-react";
 import type { PostSummary } from "@/lib/posts";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import authors from "@/data/authors";
 
 interface NewsArchiveProps {
   posts: PostSummary[];
+}
+
+const basePath =
+  process.env.NODE_ENV === "production" ? "/openprinting.github.io" : "";
+
+function getPublisherProfile(authorKey: string) {
+  const author = authors.find((item) => item.key === authorKey);
+  const rawImage =
+    author?.image && author.image !== "NA"
+      ? author.image
+      : "/authors/placeholder.jpg";
+  const imagePath = rawImage.startsWith("/")
+    ? `${basePath}${rawImage}`
+    : `${basePath}/${rawImage}`;
+
+  return {
+    name: author?.name || authorKey || "OpenPrinting",
+    imagePath,
+  };
 }
 
 function toDateInputValue(timestamp: number): string {
@@ -33,6 +54,23 @@ function formatDateLabel(dateValue: string): string {
     year: "numeric",
     month: "short",
     day: "numeric",
+  });
+}
+
+function formatCardDate(dateValue: string) {
+  if (!dateValue) {
+    return "";
+  }
+
+  const parsed = new Date(dateValue);
+  if (Number.isNaN(parsed.getTime())) {
+    return dateValue;
+  }
+
+  return parsed.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
   });
 }
 
@@ -220,6 +258,7 @@ export default function NewsArchive({ posts }: NewsArchiveProps) {
       <div className="space-y-4">
         {filteredPosts.map((post) => {
           const href = `/${encodeURIComponent(post.slug)}`;
+          const publisher = getPublisherProfile(post.author);
           return (
           <Link
             key={post.slug}
@@ -227,11 +266,24 @@ export default function NewsArchive({ posts }: NewsArchiveProps) {
             className="block rounded-md border border-gray-800 bg-gray-950 p-5 transition-colors hover:border-gray-700 hover:bg-gray-900/70"
           >
             <article>
-              <h2 className="text-lg font-semibold leading-snug text-white">{post.title}</h2>
+              <div className="flex items-start justify-between gap-3">
+                <h2 className="text-lg font-semibold leading-snug text-white">{post.title}</h2>
+                {post.date && (
+                  <span className="mt-0.5 shrink-0 rounded-full border border-gray-700 px-2 py-0.5 text-[11px] text-gray-400">
+                    {formatCardDate(post.date)}
+                  </span>
+                )}
+              </div>
 
-              <div className="mt-2 text-xs text-gray-400">
-                <span>{post.author}</span>
-                {post.date && <span> • {post.date}</span>}
+              <div className="mt-3 flex items-center gap-2">
+                <Image
+                  src={publisher.imagePath}
+                  alt={publisher.name}
+                  width={24}
+                  height={24}
+                  className="h-6 w-6 rounded-full border border-gray-700 object-cover"
+                />
+                <span className="text-sm text-gray-300">{publisher.name}</span>
               </div>
 
               <p className="mt-3 text-sm text-gray-300">{post.excerpt}</p>

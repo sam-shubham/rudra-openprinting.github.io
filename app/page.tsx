@@ -13,7 +13,8 @@ export default async function Home() {
       <HeroSection />
       <section className="border-b border-gray-800 bg-black py-6">
         <div className="container mx-auto px-4 text-center text-sm text-gray-300 sm:px-6 md:text-base lg:px-8">
-          OpenPrinting develops IPP-based printing technology for Linux/Unix operating systems.
+          OpenPrinting develops IPP-based printing technology for Linux/Unix
+          operating systems.
         </div>
       </section>
       <NewsSection posts={latestPosts} />

@@ -7,12 +7,12 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
-const basePath = process.env.NODE_ENV === "production" ? "/openprinting.github.io" : "";
+const basePath =
+  process.env.NODE_ENV === "production" ? "/openprinting.github.io" : "";
 
 const navItems = [
   { name: "About", href: "#about" },
-  { name: "News", href: "#news" },
-  { name: "All Blogs", href: "/news" },
+  { name: "News", href: "/news" },
   { name: "Projects", href: "#projects" },
 ];
 
@@ -33,12 +33,15 @@ export default function Navbar() {
         "fixed top-0 z-50 w-full transition-all duration-300",
         scrolled
           ? "border-b border-gray-800 bg-black/90 shadow-[0_2px_18px_rgba(0,0,0,0.35)]"
-          : "border-b border-transparent bg-transparent",
+          : "bg-[linear-gradient(to_bottom_left,rgba(0,0,0,0.66),rgba(0,0,0,0.28)_30%,rgba(0,0,0,0)_58%)]",
       )}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 rounded-md px-1.5 py-1">
+          <Link
+            href="/"
+            className="flex items-center gap-2 rounded-md px-1.5 py-1"
+          >
             <Image
               src={`${basePath}/openprinting.png`}
               alt="OpenPrinting Logo"
@@ -46,7 +49,9 @@ export default function Navbar() {
               height={36}
               className="object-contain"
             />
-            <span className="text-lg font-semibold tracking-tight text-white">OpenPrinting</span>
+            <span className="text-lg font-semibold tracking-tight text-white">
+              OpenPrinting
+            </span>
           </Link>
 
           <nav className="hidden items-center gap-2 md:flex">
@@ -54,7 +59,12 @@ export default function Navbar() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="rounded-md px-3 py-2 text-sm text-gray-200 transition-colors hover:bg-white/10 hover:text-white"
+                className={cn(
+                  "rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors",
+                  scrolled
+                    ? "border-gray-700/80 bg-gray-900/50 text-gray-200 hover:border-gray-500 hover:bg-gray-800/70 hover:text-white"
+                    : "border-white/25 bg-black/20 text-white hover:border-white/45 hover:bg-black/35",
+                )}
               >
                 {item.name}
               </Link>
@@ -64,7 +74,9 @@ export default function Navbar() {
           <Button
             variant="ghost"
             size="icon"
-            className={cn("text-gray-200 hover:bg-white/10 hover:text-white md:hidden")}
+            className={cn(
+              "text-gray-200 hover:bg-white/10 hover:text-white md:hidden",
+            )}
             onClick={() => setIsOpen((open) => !open)}
             aria-label="Toggle navigation"
           >
@@ -80,7 +92,7 @@ export default function Navbar() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="block rounded-md px-2 py-2 text-sm text-gray-200 hover:bg-white/10 hover:text-white"
+                className="block w-full rounded-lg border border-gray-700/80 bg-black/40 px-3 py-2 text-sm font-medium text-gray-200 transition-colors hover:border-gray-500 hover:bg-white/10 hover:text-white"
                 onClick={() => setIsOpen(false)}
               >
                 {item.name}
