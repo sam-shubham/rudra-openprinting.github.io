@@ -1,11 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { basePath } from "@/lib/utils";
 import { motion } from "framer-motion";
 import Link from "next/link";
-
-const basePath =
-  process.env.NODE_ENV === "production" ? "/openprinting.github.io" : "";
 
 export default function HeroSection() {
   return (

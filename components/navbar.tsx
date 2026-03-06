@@ -7,15 +7,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { basePath, cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
-const basePath =
-  process.env.NODE_ENV === "production" ? "/openprinting.github.io" : "";
-
 const navItems = [
-  { name: "About Us", href: "#about" },
-  { name: "News", href: "/news" },
+  { name: "News and Events", href: "#news" },
+  { name: "GSoC", href: "/gsoc" },
   { name: "Projects", href: "#projects" },
   { name: "Downloads", href: "#downloads" },
   { name: "Documentation", href: "#documentation" },
