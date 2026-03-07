@@ -17,8 +17,7 @@ const navItems = [
   { name: "About Us", href: "#about" },
   { name: "News and Events", href: "#news" },
   { name: "Projects", href: "#projects" },
-  { name: "Foomatic", href: "/foomatic" },
-  { name: "Downloads", href: "#downloads" },
+  { name: "Downloads", href: "/downloads" },
   { name: "Documentation", href: "#documentation" },
 ];
 
